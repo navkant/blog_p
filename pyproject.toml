@@ -1,0 +1,18 @@
+[tool.poetry]
+name = "blog-p"
+version = "0.1.0"
+description = ""
+authors = ["navkant <navkant.tyagi9@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+django = "^5.0.6"
+djangorestframework = "^3.15.2"
+pydantic = "^2.7.4"
+django-cors-headers = "^4.4.0"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
