@@ -16,6 +16,8 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView, TokenVerifyView
+
 from blog import urls as blog_urls
 from basic_token_auth.views import GetAuthToken, RefreshAuthToken
 
@@ -23,6 +25,10 @@ from basic_token_auth.views import GetAuthToken, RefreshAuthToken
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('blogs/', include(blog_urls)),
-    path(r'api_token_auth/', GetAuthToken.as_view(), name='get_auth_token'),
-    path(r'refresh_auth_token/', RefreshAuthToken.as_view(), name='refresh_auth_token'),
+    path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+    path('api/token/verify/', TokenVerifyView.as_view(), name='token_verify')
+
+    # path(r'api_token_auth/', GetAuthToken.as_view(), name='get_auth_token'),
+    # path(r'refresh_auth_token/', RefreshAuthToken.as_view(), name='refresh_auth_token'),
 ]

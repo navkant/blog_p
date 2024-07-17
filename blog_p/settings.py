@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-73s@l78ao)=^l^e(b&bmv_68yayla5kzv9$i9ou-q(8a*7z)&t
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1']
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
 
 
 # Application definition
@@ -146,6 +146,7 @@ CORS_ALLOW_HEADERS = (
 
 REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": (
-        "basic_token_auth.token_authentication.BearerTokenAuthentication",
+        "rest_framework_simplejwt.authentication.JWTAuthentication",
+        # "basic_token_auth.token_authentication.BearerTokenAuthentication",
     )
 }
