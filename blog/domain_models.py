@@ -1,4 +1,4 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, computed_field
 from datetime import datetime
 from typing import List
 
@@ -18,3 +18,15 @@ class BlogDomainModel(BaseModel):
 
 class BlogListDomainModel(BaseModel):
     items: List[BlogDomainModel]
+
+
+class UserDetails(BaseModel):
+    id: int
+    username: str
+    email: str
+    first_name: str
+    last_name: str
+
+    @computed_field
+    def name(self) -> str:
+        return f"{self.first_name} {self.last_name}"

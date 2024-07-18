@@ -3,7 +3,7 @@ from django.shortcuts import render
 from rest_framework.views import APIView
 from rest_framework import response, status
 
-from blog.domain_models import BlogDomainModel, BlogListDomainModel
+from blog.domain_models import BlogDomainModel, BlogListDomainModel, UserDetails
 from rest_framework.permissions import IsAuthenticated
 from blog.models import Blog
 
@@ -33,3 +33,17 @@ class ListUserBlogs(APIView):
         blogs = BlogListDomainModel(items=list(map(BlogDomainModel.from_orm, blogs)))
 
         return response.Response(blogs.dict(), status=status.HTTP_200_OK)
+
+
+class GetUserDetails(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        user_details = {
+            "id": request.user.id,
+            "email": request.user.email,
+            "username": request.user.username,
+            "first_name": request.user.first_name,
+            "last_name": request.user.last_name
+        }
+        return response.Response(UserDetails.parse_obj(user_details).dict(), status=status.HTTP_200_OK)
