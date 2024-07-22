@@ -10,6 +10,7 @@ class BlogDomainModel(BaseModel):
     content: str
     is_latest: bool
     author_name: str
+    author_id: int
     image_url: str
 
     class Config:
