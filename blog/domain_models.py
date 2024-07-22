@@ -10,6 +10,7 @@ class BlogDomainModel(BaseModel):
     content: str
     is_latest: bool
     author_name: str
+    image_url: str
 
     class Config:
         orm_mode = True
