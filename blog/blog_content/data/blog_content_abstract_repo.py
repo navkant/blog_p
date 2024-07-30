@@ -6,3 +6,7 @@ class BlogContentAbstractRepo(ABC):
     @abstractmethod
     def list_all_blogs(self) -> BlogDomainModelList:
         pass
+
+    @abstractmethod
+    def get_blog(self, blog_id: int) -> BlogDomainModel:
+        pass

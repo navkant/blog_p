@@ -20,11 +20,12 @@ from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
 from blog import urls as blog_urls
 from basic_token_auth.views import GetAuthToken, RefreshAuthToken
-
+from blog.blog_content.presentation import urls as blog_urls_v2
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('blogs/', include(blog_urls)),
+    path(r"v2/blogs/", include(blog_urls_v2)),
     path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path('api/token/verify/', TokenVerifyView.as_view(), name='token_verify')
