@@ -10,3 +10,7 @@ class BlogContentAbstractRepo(ABC):
     @abstractmethod
     def get_blog(self, blog_id: int) -> BlogDomainModel:
         pass
+
+    @abstractmethod
+    def list_user_blogs(self, user_id: int) -> BlogDomainModelList:
+        pass

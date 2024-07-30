@@ -23,3 +23,8 @@ class BlogContentDbRepo(BlogContentAbstractRepo):
             raise BlogDoesNotExist(f"Blog with id {blog_id} does not exist")
 
         return BlogDomainModel.model_validate(blog)
+
+    def list_user_blogs(self, user_id: int) -> BlogDomainModelList:
+        blogs = Blog.objects.filter(author=user_id).order_by("-id")
+
+        return BlogDomainModelList(items=list(map(BlogDomainModel.model_validate, blogs)))

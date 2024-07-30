@@ -52,11 +52,3 @@ class GetUserDetails(APIView):
             "last_name": request.user.last_name
         }
         return response.Response(UserDetails.parse_obj(user_details).dict(), status=status.HTTP_200_OK)
-
-
-class CreateBlog(APIView):
-    permission_classes = [IsAuthenticated]
-    throttle_classes = [UserRateThrottle]
-
-    def post(self, request):
-        pass
