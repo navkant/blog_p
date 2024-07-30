@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-73s@l78ao)=^l^e(b&bmv_68yayla5kzv9$i9ou-q(8a*7z)&t
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost', '192.168.1.8']
 
 
 # Application definition
@@ -148,5 +148,13 @@ REST_FRAMEWORK = {
     "DEFAULT_AUTHENTICATION_CLASSES": (
         "rest_framework_simplejwt.authentication.JWTAuthentication",
         # "basic_token_auth.token_authentication.BearerTokenAuthentication",
-    )
+    ),
+    # 'DEFAULT_THROTTLE_CLASSES': [
+    #     'rest_framework.throttling.AnonRateThrottle',
+    #     'rest_framework.throttling.UserRateThrottle'
+    # ],
+    'DEFAULT_THROTTLE_RATES': {
+        'anon': '5/min',
+        'user': '100/day',
+    }
 }
