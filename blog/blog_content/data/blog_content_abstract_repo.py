@@ -1,6 +1,6 @@
 from abc import ABC, abstractmethod
-from blog.blog_content.domain.domain_models import BlogDomainModel, BlogDomainModelList, BlogUpdateRequestDomainModel
-
+from blog.blog_content.domain.domain_models import BlogDomainModel, BlogDomainModelList, BlogUpdateRequestDomainModel, \
+    BlogCreateDomainModel
 
 
 class BlogContentAbstractRepo(ABC):
@@ -18,4 +18,8 @@ class BlogContentAbstractRepo(ABC):
 
     @abstractmethod
     def update_blog(self, blog_update_request: BlogUpdateRequestDomainModel) -> BlogDomainModel:
+        pass
+
+    @abstractmethod
+    def create_blog(self, blog_create_request: BlogCreateDomainModel) -> BlogDomainModel:
         pass

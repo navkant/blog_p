@@ -1,7 +1,8 @@
 import logging
 
 from blog.blog_content.data.blog_content_abstract_repo import BlogContentAbstractRepo
-from blog.blog_content.domain.domain_models import BlogDomainModelList, BlogDomainModel, BlogUpdateRequestDomainModel
+from blog.blog_content.domain.domain_models import BlogDomainModelList, BlogDomainModel, BlogUpdateRequestDomainModel, \
+    BlogCreateDomainModel
 from blog.models import Blog
 from blog.blog_content.exceptions import BlogDoesNotExist
 
@@ -11,7 +12,7 @@ logger = logging.getLogger(__name__)
 
 class BlogContentDbRepo(BlogContentAbstractRepo):
     def list_all_blogs(self) -> BlogDomainModelList:
-        blogs = Blog.objects.all()
+        blogs = Blog.objects.all().order_by('-id')
 
         return BlogDomainModelList(items=list(map(BlogDomainModel.model_validate, blogs)))
 
@@ -33,5 +34,15 @@ class BlogContentDbRepo(BlogContentAbstractRepo):
         blog = Blog.objects.get(id=blog_update_request.blog_id)
         blog.content = blog_update_request.content
         blog.save()
+
+        return BlogDomainModel.model_validate(blog)
+
+    def create_blog(self, blog_create_request: BlogCreateDomainModel) -> BlogDomainModel:
+        blog = Blog.objects.create(
+            title=blog_create_request.title,
+            content=blog_create_request.content,
+            author_id=blog_create_request.author_id,
+            image_url="https://picsum.photos/200",
+        )
 
         return BlogDomainModel.model_validate(blog)

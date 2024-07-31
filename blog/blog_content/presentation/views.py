@@ -7,6 +7,8 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.throttling import UserRateThrottle
 
 from blog.blog_content.domain.domain_models import BlogUpdateRequestDomainModel
+from blog.blog_content.domain.domain_models import BlogCreateDomainModel
+from blog.blog_content.domain.usecases.create_blog_usecase import CreateBlogUsecase
 from blog.blog_content.domain.usecases.list_all_blogs_usecase import ListAllBlogsUsecase
 from blog.blog_content.domain.usecases.get_blog_usecase import GetBlogUsecase
 from blog.blog_content.domain.usecases.list_user_blogs_usecase import ListUserBlogs
@@ -58,3 +60,17 @@ class ListUserBlogsView(APIView):
         blogs = list_user_blogs.execute(user_id=request.user.id)
 
         return Response(BlogResponseList.from_orm(blogs).model_dump(), status=status.HTTP_200_OK)
+
+
+class CreateBlogView(APIView):
+    # permission_classes = [IsAuthenticated]
+    throttle_classes = [UserRateThrottle]
+
+    def post(self, request, create_blog_usecase: CreateBlogUsecase = Provide["blog_container.create_blog_use_case"]):
+        blog_create_request = BlogCreateDomainModel.model_validate(request.data)
+        blog = create_blog_usecase.execute(blog_create_request=blog_create_request)
+        blog_response = BlogResponse.model_validate(blog)
+
+        return Response(
+            blog_response.model_dump(), status=status.HTTP_200_OK
+        )
