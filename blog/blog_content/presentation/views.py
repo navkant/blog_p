@@ -6,10 +6,12 @@ from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.throttling import UserRateThrottle
 
+from blog.blog_content.domain.domain_models import BlogUpdateRequestDomainModel
 from blog.blog_content.domain.usecases.list_all_blogs_usecase import ListAllBlogsUsecase
 from blog.blog_content.domain.usecases.get_blog_usecase import GetBlogUsecase
 from blog.blog_content.domain.usecases.list_user_blogs_usecase import ListUserBlogs
-from blog.blog_content.presentation.types import BlogResponseList
+from blog.blog_content.domain.usecases.update_blog_usecase import UpdateBlogUsecase
+from blog.blog_content.presentation.types import BlogResponseList, BlogResponse, BlogUpdateRequesst
 
 
 class ListAllBlogsView(APIView):
@@ -23,15 +25,28 @@ class ListAllBlogsView(APIView):
         )
 
 
-class GetBlogView(APIView):
+class GetUpdateBlogView(APIView):
     permission_classes = [IsAuthenticated]
     throttle_classes = [UserRateThrottle]
 
     def get(self, request, blog_id: int, get_blog_use_case: GetBlogUsecase = Provide["blog_container.get_blog_use_case"]):
         blog = get_blog_use_case.execute(blog_id=blog_id)
+        blog_response = BlogResponse.model_validate(blog)
 
         return Response(
-            blog.model_dump(), status=status.HTTP_200_OK
+            blog_response.model_dump(), status=status.HTTP_200_OK
+        )
+
+    def patch(self, request, blog_id: int, update_blog_usecase: UpdateBlogUsecase = Provide["blog_container.update_blog_use_case"]):
+        blog_update_request = BlogUpdateRequesst.parse_obj(request.data)
+        blog_update_request_domain_model = BlogUpdateRequestDomainModel(
+            blog_id=blog_id,
+            content=blog_update_request.content
+        )
+        blog_response = update_blog_usecase.execute(blog_update_request=blog_update_request_domain_model)
+
+        return Response(
+            blog_response.model_dump(), status=status.HTTP_200_OK
         )
 
 
@@ -39,15 +54,7 @@ class ListUserBlogsView(APIView):
     permission_classes = [IsAuthenticated]
     throttle_classes = [UserRateThrottle]
 
-    def get(self, request, list_user_blogs: ListUserBlogs = Provide["blog_container.list_user_blogs"]):
+    def get(self, request, list_user_blogs: ListUserBlogs = Provide["blog_container.list_user_blogs_use_case"]):
         blogs = list_user_blogs.execute(user_id=request.user.id)
 
-        return Response(blogs.model_dump(), status=status.HTTP_200_OK)
-
-
-class UpdateBlogView(APIView):
-    permission_classes = [IsAuthenticated]
-    throttle_classes = [UserRateThrottle]
-
-    def post(self, request):
-        pass
+        return Response(BlogResponseList.from_orm(blogs).model_dump(), status=status.HTTP_200_OK)

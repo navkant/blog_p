@@ -22,3 +22,8 @@ class BlogDomainModelList(BaseModel):
 
     class Config:
         from_attributes = True
+
+
+class BlogUpdateRequestDomainModel(BaseModel):
+    blog_id: int
+    content: str

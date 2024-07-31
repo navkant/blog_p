@@ -23,3 +23,7 @@ class BlogResponseList(BaseModel):
 
     class Config:
         from_attributes = True
+
+
+class BlogUpdateRequesst(BaseModel):
+    content: str
