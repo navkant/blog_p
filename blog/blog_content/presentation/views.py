@@ -14,14 +14,17 @@ from blog.blog_content.domain.usecases.get_blog_usecase import GetBlogUsecase
 from blog.blog_content.domain.usecases.list_user_blogs_usecase import ListUserBlogs
 from blog.blog_content.domain.usecases.update_blog_usecase import UpdateBlogUsecase
 from blog.blog_content.presentation.types import BlogResponseList, BlogResponse, BlogUpdateRequesst
+from time import perf_counter
 
 
 class ListAllBlogsView(APIView):
     throttle_classes = [AnonRateThrottle]
 
     def get(self, request, list_all_blogs_use_case: ListAllBlogsUsecase = Provide["blog_container.list_all_blogs_use_case"]):
+        t1_start = perf_counter()
         blogs = list_all_blogs_use_case.execute()
-
+        t1_stop = perf_counter()
+        print("Elapsed time during the whole program in seconds:", t1_stop - t1_start)
         return Response(
             BlogResponseList.from_orm(blogs).model_dump(), status=status.HTTP_200_OK
         )
