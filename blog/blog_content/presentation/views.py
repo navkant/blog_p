@@ -18,21 +18,15 @@ from time import perf_counter
 
 
 class ListAllBlogsView(APIView):
-    throttle_classes = [AnonRateThrottle]
 
     def get(self, request, list_all_blogs_use_case: ListAllBlogsUsecase = Provide["blog_container.list_all_blogs_use_case"]):
-        t1_start = perf_counter()
         blogs = list_all_blogs_use_case.execute()
-        t1_stop = perf_counter()
-        print("Elapsed time during the whole program in seconds:", t1_stop - t1_start)
         return Response(
             BlogResponseList.from_orm(blogs).model_dump(), status=status.HTTP_200_OK
         )
 
 
 class GetUpdateBlogView(APIView):
-    permission_classes = [IsAuthenticated]
-    throttle_classes = [UserRateThrottle]
 
     def get(self, request, blog_id: int, get_blog_use_case: GetBlogUsecase = Provide["blog_container.get_blog_use_case"]):
         blog = get_blog_use_case.execute(blog_id=blog_id)
@@ -56,8 +50,6 @@ class GetUpdateBlogView(APIView):
 
 
 class ListUserBlogsView(APIView):
-    permission_classes = [IsAuthenticated]
-    throttle_classes = [UserRateThrottle]
 
     def get(self, request, list_user_blogs: ListUserBlogs = Provide["blog_container.list_user_blogs_use_case"]):
         blogs = list_user_blogs.execute(user_id=request.user.id)

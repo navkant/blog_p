@@ -12,6 +12,7 @@ class BlogDomainModel(BaseModel):
     is_latest: Optional[bool]
     author_id: int
     author_name: Optional[str]
+    rating: int
 
     class Config:
         from_attributes = True

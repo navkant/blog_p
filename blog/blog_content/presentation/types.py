@@ -13,6 +13,7 @@ class BlogResponse(BaseModel):
     is_latest: bool
     author_id: int
     author_name: str
+    rating: int
 
     class Config:
         from_attributes = True
