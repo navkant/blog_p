@@ -1,5 +1,5 @@
 {
-    "production": {
+    "prod": {
         "aws-region": "us-east-1",
         "django_settings": "blog_p.settings",
         "project_name": "blog_be",
