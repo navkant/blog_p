@@ -20,6 +20,7 @@ zappa = "^0.59.0"
 python-decouple = "^3.8"
 psycopg = "^3.2.3"
 psycopg2-binary = "^2.9.10"
+setuptools =  "74.1.2"
 
 
 [build-system]
