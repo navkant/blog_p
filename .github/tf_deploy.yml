@@ -1,4 +1,4 @@
-name: Continuous Deployment
+name: Terraform Deployment
 
 on:
   workflow_dispatch:
