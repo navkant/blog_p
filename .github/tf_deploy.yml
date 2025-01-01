@@ -45,11 +45,11 @@ jobs:
         run: |
           chmod +x ./getEnv.sh && ./getEnv.sh
           poetry run python load_env.py
+          zappa package prod -o package.zip
 
-      - name: echo python version
-        run: poetry run python --version
 
-      - name: "${{github.event.inputs.choice}}"
+      - name: Deploy
         run: |
-          source .venv/bin/activate
-          zappa "${{github.event.inputs.choice}}" production
+          cd deployments
+          terraform init
+          terraform apply -auto-approve
