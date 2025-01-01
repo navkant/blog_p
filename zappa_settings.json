@@ -1,0 +1,9 @@
+{
+    "production": {
+        "aws-region": "us-east-1",
+        "django_settings": "blog_p.settings",
+        "project_name": "blog_be",
+        "runtime": "python3.8",
+        "s3_bucket": "blog-be"
+    }
+}
