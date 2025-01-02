@@ -45,7 +45,7 @@ jobs:
         run: |
           chmod +x ./getEnv.sh && ./getEnv.sh
           poetry run python load_env.py
-          zappa package prod -o package.zip
+          poetry run zappa package prod -o package.zip
 
 
       - name: Deploy
