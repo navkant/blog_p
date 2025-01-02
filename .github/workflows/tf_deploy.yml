@@ -47,10 +47,10 @@ jobs:
           poetry run python load_env.py
           poetry run zappa package prod -o package.zip
 
-      - name: Install Terraform
-        uses: little-core-labs/install-terraform@v2.0.0
+      - name: Install terraform
+      - uses: hashicorp/setup-terraform@v3
         with:
-            version: 0.13.4
+          terraform_version: "1.1.7"
 
       - name: Deploy
         run: |
