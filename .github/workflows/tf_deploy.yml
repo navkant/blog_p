@@ -1,59 +1,58 @@
 name: Terraform Deployment
 
 on:
-  workflow_dispatch:
-    inputs:
-      choice:
-        description: Choose Description
-        options:
-          - update
-          - deploy
-        type:
-          choice
+    workflow_dispatch:
+        inputs:
+            choice:
+                description: Choose Description
+                options:
+                    - update
+                    - deploy
+                type: choice
 
 jobs:
-  deploy:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
+    deploy:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v2
 
-      - name: Setup Python
-        uses: actions/setup-python@v2
-        with:
-          python-version: 3.8.18
+            - name: Setup Python
+              uses: actions/setup-python@v2
+              with:
+                  python-version: 3.8.18
 
-      - name: Install poetry
-        uses: snok/install-poetry@v1
-        with:
-          virtualenvs-create: true
-          virtualenvs-in-project: true
-          install-parallel: true
+            - name: Install poetry
+              uses: snok/install-poetry@v1
+              with:
+                  virtualenvs-create: true
+                  virtualenvs-in-project: true
+                  install-parallel: true
 
-      - name: Install poetry packages
-        run: | 
-          poetry install
+            - name: Install poetry packages
+              run: |
+                  poetry install
 
-      - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v1
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: us-east-1
+            - name: Configure AWS credentials
+              uses: aws-actions/configure-aws-credentials@v1
+              with:
+                  aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+                  aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+                  aws-region: us-east-1
 
-      - name: Setup requirements
-        run: |
-          chmod +x ./getEnv.sh && ./getEnv.sh
-          poetry run python load_env.py
-          poetry run zappa package prod -o package.zip
+            - name: Setup requirements
+              run: |
+                  chmod +x ./getEnv.sh && ./getEnv.sh
+                  poetry run python load_env.py
+                  poetry run zappa package prod -o package.zip
 
-      - name: Install terraform
-      - uses: hashicorp/setup-terraform@v3
-        with:
-          terraform_version: "1.1.7"
+            - name: Install terraform
+              uses: hashicorp/setup-terraform@v3
+              with:
+                  terraform_version: "1.1.7"
 
-      - name: Deploy
-        run: |
-          cd terraform
-          terraform init
-          terraform apply -auto-approve
+            - name: Deploy
+              run: |
+                  cd terraform
+                  terraform init
+                  terraform apply -auto-approve
