@@ -25,6 +25,8 @@ jobs:
         python-version: 3.8.18
     - name: Install poetry
       uses: snok/install-poetry@v1
+      with:
+        poetry-version: '1.8.0'
     - name: Run Tests
       run: |
         python run manage.py test
