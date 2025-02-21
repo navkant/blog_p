@@ -5,5 +5,5 @@ class DomainTest(SimpleTestCase):
     def setUp(self):
         pass
 
-    def domain_test(self):
+    def test_domain(self):
         self.assertEquals(1, 1)
