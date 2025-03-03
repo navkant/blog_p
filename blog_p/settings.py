@@ -181,4 +181,8 @@ REST_FRAMEWORK = {
     }
 }
 
-STATIC_ROOT = BASE_DIR / "staticfiles"
+STATIC_ROOT = BASE_DIR / "staticfiles-cdn"
+STATICFILES_DIRS = [
+    BASE_DIR / "staticfiles"
+]
+from .cdn.conf import * # noqa
