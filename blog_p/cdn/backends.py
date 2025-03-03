@@ -1,0 +1,1 @@
+from storages.backend.s3boto3 import S3

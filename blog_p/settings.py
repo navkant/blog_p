@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'corsheaders',
     'blog',
     'basic_token_auth',
+    'storages',
 ]
 
 MIDDLEWARE = [
@@ -179,3 +180,5 @@ REST_FRAMEWORK = {
         'user': '5000/day',
     }
 }
+
+STATIC_ROOT = BASE_DIR / "staticfiles"
