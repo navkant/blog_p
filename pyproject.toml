@@ -23,7 +23,6 @@ setuptools =  "74.1.2"
 django-dotenv = "^1.4.2"
 django-storages = "1.10.1"
 boto3 = "^1.37.4"
-psycopg2 = "^2.9.10"
 
 
 [build-system]
