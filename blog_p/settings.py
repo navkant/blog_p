@@ -180,3 +180,8 @@ REST_FRAMEWORK = {
         'user': '5000/day',
     }
 }
+
+STATIC_ROOT = BASE_DIR / "staticfiles-cdn"
+STATICFILES_DIRS = [
+    BASE_DIR / "staticfiles"
+]
